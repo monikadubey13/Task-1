@@ -1,0 +1,21 @@
+#!/usr/bin/env groovy
+pipeline {
+    agent any
+
+    stages {
+        stage('Build Image') {
+            when {
+                docker.build('Dockerfile')
+            }
+
+        }
+
+        stage('Publish Image') {
+            when {
+               docker.withRegistry('https://registry.hub.docker.com', 'dockerhub-credentials') {
+                        docker.image('housing-price-prediction').push('latest') }
+            }
+            
+        }
+    }
+}

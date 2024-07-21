@@ -5,25 +5,25 @@ pipeline {
     stages {
         stage('Build Image') {
             when {
-                 branch 'master'  //only run these steps on the master branch
+                branch 'master'  // only run these steps on the master branch
             }
-             step   {  
-                 script {
+            steps {  
+                script {
                     docker.build('Dockerfile')
+                }
             }
-             }
-
         }
 
         stage('Publish Image') {
             when {
-              branch 'master'  //only run these steps on the master branch
+                branch 'master'  // only run these steps on the master branch
             }
-            step {
+            steps {  
                 script {
-               docker.withRegistry('https://registry.hub.docker.com', 'dockerhub-credentials') {
-                        docker.image('housing-price-prediction').push('latest') }
-            }
+                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub-credentials') {
+                        docker.image('housing-price-prediction').push('latest')
+                    }
+                }
             }
         }
     }
